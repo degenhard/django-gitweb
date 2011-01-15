@@ -30,8 +30,8 @@ def pygmentize(mime, blob):
             lexer = lexers.get_lexer_by_name(mime)
         except:
             lexer = lexers.get_lexer_by_name('text')
-        
+
     pygmented_string = pygments.highlight(blob, lexer, NakedHtmlFormatter())
     pygmented_string = unescape_amp(pygmented_string)
-    
+
     return mark_safe(pygmented_string)

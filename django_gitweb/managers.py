@@ -10,5 +10,5 @@ class RepositoryManager(models.Manager):
             qset = REPOSITORY_PUBLIC_FILTER(user)
         else:
             qset = REPOSITORY_LOGGED_IN_FILTER(user)
-        
+
         return self.get_query_set().filter(qset)

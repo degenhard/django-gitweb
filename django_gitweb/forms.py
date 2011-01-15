@@ -11,8 +11,8 @@ class RepositoryForm(forms.ModelForm):
             raise forms.ValidationError(_('Please submit a valid git repository path'))
         except Exception:
             raise forms.ValidationError(_('Please submit a valid file path'))
-        
+
         return self.cleaned_data['path']
-        
+
     class Meta:
         model = Repository
