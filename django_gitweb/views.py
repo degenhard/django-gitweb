@@ -2,14 +2,14 @@ from django.template.context import RequestContext
 from django.http import Http404
 from django.shortcuts import render_to_response
 import os
-from gitweb.utils import human_filesize, pygmentize
-from gitweb.models import Repository
+from django_gitweb.utils import human_filesize, pygmentize
+from django_gitweb.models import Repository
 
 def repository_list(request, template_name='gitweb/repository_list.html'):
     template_context = {
         'repository_list': Repository.objects.visible_repositories_for_user(request.user),
     }
-    
+
     return render_to_response(
         template_name,
         template_context,
@@ -81,7 +81,7 @@ def repository_commit(request, id, slug, commit, template_name='gitweb/repositor
         commit = repository.repo().commit(commit)
     except:
         raise Http404
-    
+
     template_context = {
         'repository': repository,
         'commit': commit,

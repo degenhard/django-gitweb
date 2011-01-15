@@ -77,5 +77,5 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'gitweb',
+    'django_gitweb',
 )
