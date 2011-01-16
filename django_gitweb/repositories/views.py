@@ -2,8 +2,8 @@ from django.template.context import RequestContext
 from django.http import Http404
 from django.shortcuts import render_to_response
 import os
-from django_gitweb.utils import human_filesize, pygmentize
-from django_gitweb.models import Repository
+from django_gitweb.repositories.utils import human_filesize, pygmentize
+from django_gitweb.repositories.models import Repository
 
 def repository_list(request, template_name='gitweb/repository_list.html'):
     template_context = {

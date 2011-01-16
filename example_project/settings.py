@@ -77,6 +77,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'django_gitweb',
+    'django_gitweb.repositories',
     'gravatar',
 )

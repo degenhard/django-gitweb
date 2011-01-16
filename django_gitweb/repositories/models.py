@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -6,7 +7,20 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 import os
 from dulwich import repo
-from .managers import RepositoryManager
+
+REPOSITORY_PUBLIC_FILTER = lambda u: Q(is_public=True)
+REPOSITORY_LOGGED_IN_FILTER = lambda u: Q(
+    Q(is_public=True) | Q(member__user=u)
+)
+
+class RepositoryManager(models.Manager):
+    def visible_repositories_for_user(self, user=None):
+        if not user or not user.is_authenticated():
+            qset = REPOSITORY_PUBLIC_FILTER(user)
+        else:
+            qset = REPOSITORY_LOGGED_IN_FILTER(user)
+
+        return self.get_query_set().filter(qset)
 
 class Repository(models.Model):
     path = models.CharField(_('Repository Path'), max_length=255)
@@ -58,7 +72,8 @@ class Repository(models.Model):
 
     @property
     def recent_commits(self):
-        return self.repo().commits(max_count=getattr(settings, 'GITHUB_RECENT_COMMITS_COUNT', 10))
+        return self.repo().commits(
+            max_count=getattr(settings, 'GITWEB_RECENT_COMMITS_COUNT', 10))
 
     @property
     def last_commit(self):
@@ -85,3 +100,4 @@ class Member(models.Model):
         unique_together = ('repository', 'user')
         verbose_name = _('Repository User')
         verbose_name_plural = _('Repository Users')
+

@@ -10,7 +10,9 @@ def human_filesize(bytes):
     if bytes is 0:
         return '0 bytes'
     log = math.floor(math.log(bytes, 1024))
-    return "%0.2f %s" % (bytes / math.pow(1024, log), ['bytes', 'kb', 'mb', 'gb', 'tb'][int(log)])
+    return "%0.2f %s" % (
+        bytes / math.pow(1024, log),
+        ['bytes', 'kb', 'mb', 'gb', 'tb'][int(log)])
 
 def unescape_amp(text):
     return text.replace('&amp;', '&')
@@ -35,3 +37,4 @@ def pygmentize(mime, blob):
     pygmented_string = unescape_amp(pygmented_string)
 
     return mark_safe(pygmented_string)
+

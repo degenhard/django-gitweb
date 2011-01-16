@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django_gitweb.models import Member, Repository
-from .forms import RepositoryForm
+from django_gitweb.repositories.models import Member, Repository
+from django_gitweb.repositories.forms import RepositoryForm
 
 class MemberInline(admin.TabularInline):
     model = Member
@@ -13,3 +13,4 @@ class RepositoryAdmin(admin.ModelAdmin):
     inlines = (MemberInline,)
 
 admin.site.register(Repository, RepositoryAdmin)
+

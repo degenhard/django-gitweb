@@ -1,7 +1,7 @@
 from django import template
 from django.utils.timesince import timesince
 from datetime import datetime, timedelta
-from django_gitweb.utils import pygmentize
+from django_gitweb.repositories.utils import pygmentize
 
 register = template.Library()
 
@@ -35,3 +35,4 @@ def pygmentize_diff(blob):
         return pygmentize('diff', blob)
     except:
         return blob
+
