@@ -79,4 +79,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_gitweb.repositories',
     'gravatar',
+
+    'south',
 )
