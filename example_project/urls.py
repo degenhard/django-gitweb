@@ -1,17 +1,18 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^accounts/', include('django_gitweb.accounts.urls')),
+    (r'^admin/', include(admin.site.urls)),
     (r'^', include('django_gitweb.repositories.urls')),
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/(.*)', admin.site.root),
 )
 
 if settings.DEBUG:
     urlpatterns += patterns('',
-        (r'^media/django-gitweb/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'static_media'}),
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     )
+    urlpatterns += staticfiles_urlpatterns()

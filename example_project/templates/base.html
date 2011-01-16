@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example - {% block title %}example django-gitweb{% endblock %}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="copyright" content="CoinCam.de" />
+    <meta name="robots" content="index, follow" />
+    <meta name="revisit-after" content="1 days" />
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="all" />
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="header">
+        {% block header %}
+            <h1 style="float:left;">example django-gitweb</h1>
+            <div class="headnav">
+                {% if request.user.is_authenticated %}
+                    Welcome back, {{ request.user.username }}<br />
+                    <a href="{% url accounts_profile_change %}">&raquo; Edit profile</a> -
+                    <a href="{% url auth_logout %}">&raquo; Logout</a>
+                {% else %}
+                    <a href="{% url auth_login %}">&raquo; Login</a> -
+                    <a href="{% url registration %}">&raquo; Register</a>
+                {% endif %}
+            </div>
+        {% endblock %}
+        <div class="clear"></div>
+    </div>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+        <div class="clear"></div>
+    </div>
+    <div class="footer">
+        {% block footer %}
+        <h4>django-gitweb, {% now "r" %}</h4>
+        {% endblock %}
+    </div>
+</body>
+</html>

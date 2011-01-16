@@ -18,7 +18,12 @@ tr {
     background-color: #eeeeee;
     border-bottom: 1px solid #dddddd;
 }
-
+.clear {
+    clear:both;
+}
+.headnav {
+    float:right;
+}
 .header {
     padding: 5px 15px;
     background-color: #cccccc;
