@@ -1,5 +1,5 @@
 {% extends "gitweb/base.html" %}
-{% load gitweb_tags %}
+{% load gitweb_tags gravatar_tags author_tags %}
 
 {% block title %}Repository: {{ repository.title }}{% endblock %}
 
@@ -9,15 +9,25 @@
 
 {% block content %}
 <div class="repo_summary">
-    <div class="key">description</div><div class="value">{% if repository.description %}{{ repository.description }}{% else %}{{ repository.repo.description }}{% endif %}</div>
-    <div class="key">last change</div><div class="value">{{ repository.last_commit.committed_date|time2datetime }}</div>
+<div class="key">description</div>
+<div class="value">
+	{% if repository.description|linebreaksbr %}
+		{{ repository.description|linebreaksbr }}
+	{% else %}
+		{{ repository.repo.description|linebreaksbr }}
+	{% endif %}
+</div>
+<br />
+<div class="key">last change</div>
+<div class="value"> {{ repository.last_commit_object.commit_time|timestamp2datetime|conditional_timesince }}</div>
 </div>
 <h3>recent commits</h3>
 <table class="repo_log">
-    {% for commit in repository.recent_commits %}
+    {% for commit in commits %}
     <tr>
-        <td>{{ commit.committed_date|time2datetime|conditional_timesince:7 }}</td>
-        <td>{{ commit.committer.name }}</td>
+
+         <td><img src="{% get_gravatar_for_author commit.author 32 "r" %}" /> {{ commit.author }}</td>
+		<td>{{ commit.commit_time|timestamp2datetime|conditional_timesince }}</td>
         <td>{{ commit.message|truncatewords:8 }}</td>
         <td>
             <a href="{% url gitweb_repository_commit repository.pk,repository.slug,commit.id %}">commit</a>
@@ -30,10 +40,11 @@
 
 <h3>heads</h3>
 <table class="repo_log">
-    {% for head in repository.repo.heads %}
+    {% for head in heads %}
     <tr>
-        <td>{{ head.name }}</td>
-        <td>{{ head.commit.committed_date|time2datetime|conditional_timesince:60 }}</td>
+        <td>{{ head.head }}</td>
+		<td>{{ head.commit.message }}</td>
+        <td>{{ head.commit.commit_time|timestamp2datetime|conditional_timesince }}</td>
         <td>
             <a href="#">shortlog</a>
             <a href="#">tree</a>
@@ -41,5 +52,4 @@
     </tr>
     {% endfor %}
 </table>
-
 {% endblock %}

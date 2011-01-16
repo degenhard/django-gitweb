@@ -17,12 +17,14 @@
     </tr>
     {% for repo in repository_list %}
     <tr class="{% cycle 'tr1' 'tr2' %}">
-        <td><a href="{% url gitweb_repository_summary repo.pk,repo.slug %}">{{ repo }}</a></td>
-        <td><a href="{% url gitweb_repository_summary repo.pk,repo.slug %}">{% if repo.description %}{{ repo.description }}{% else %}{{ repo.repo.description }}{% endif %}</a></td>
-        <td>{{ repo.last_commit.committed_date|time2datetime|timesince }}</td>
+        <td><a href="{% url gitweb_repository_summary repo.pk, repo.slug %}">{{ repo }}</a></td>
+
+        <td><a href="{% url gitweb_repository_summary repo.pk, repo.slug %}">{% if repo.description|linebreaksbr %}{{ repo.description|linebreaksbr }}{% else %}{{ repo.repo.description|linebreaksbr }}{% endif %}</a></td>
+
+<td><i>{{ repo.last_commit_object.commit_time|timestamp2datetime|conditional_timesince }} {{ repo.last_commit_object.message }}</i></td>
         <td>
             <a href="{% url gitweb_repository_summary repo.pk,repo.slug %}">summary</a>
-            <a href="{% url gitweb_repository_tree repo.pk,repo.slug,repo.active_branch,"" %}">tree</a>
+            <a href="{% url gitweb_repository_tree repo.pk,repo.slug,repo.last_commit,"" %}">tree</a>
         </td>
     </tr>
     {% endfor %}

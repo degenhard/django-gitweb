@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.defaultfilters import slugify
 import os
-import git
+from dulwich import repo
 from .managers import RepositoryManager
 
 class Repository(models.Model):
@@ -42,7 +42,7 @@ class Repository(models.Model):
         return self.get_absolute_tree_url()
 
     def repo(self):
-        return git.Repo(self.path)
+        return repo.Repo(self.path)
 
     def branches(self):
         branches = self.repo().branches
@@ -62,7 +62,11 @@ class Repository(models.Model):
 
     @property
     def last_commit(self):
-        return self.repo().commits(max_count=1)[0]
+        return self.repo().head
+
+    @property
+    def last_commit_object(self):
+        return self.repo().commit(self.repo().head())
 
     class Meta:
         verbose_name = _('Repository')

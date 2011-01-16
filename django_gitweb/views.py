@@ -19,11 +19,25 @@ def repository_list(request, template_name='gitweb/repository_list.html'):
 def repository_summary(request, id, slug, template_name='gitweb/repository_summary.html'):
     try:
         repository = Repository.objects.visible_repositories_for_user(request.user).get(pk=id)
+
+        heads = []
+
+        for k, v in repository.repo().get_refs().items():
+            head = k
+            sha = v
+            commit = repository.repo()[v]
+            heads.append({'head': head, 'sha': sha , 'commit':commit})
+            print commit
+
+        commits = repository.repo().revision_history(repository.repo().head())[:10]
+
     except Repository.DoesNotExist:
         raise Http404
 
     template_context = {
         'repository': repository,
+        'heads': heads,
+        'commits': commits,
     }
 
     return render_to_response(

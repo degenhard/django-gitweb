@@ -13,6 +13,13 @@ def time2datetime(value):
         return None
 
 @register.filter
+def timestamp2datetime(value):
+    try:
+        return datetime.fromtimestamp(value)
+    except:
+        return value
+
+@register.filter
 def conditional_timesince(value, max_age_days=7, fmt='%Y-%m-%d'):
     try:
         if value >= datetime.now() - timedelta(days=max_age_days):
