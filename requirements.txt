@@ -1,5 +1,5 @@
 Django==1.2.4
 pygments==1.4
-dulwich==0.6.2
-South==0.7.3
+-e git+git://git.samba.org/jelmer/dulwich.git@f841bf00fd930132c9a41603b4dd7ff2e64dbe00#egg=dulwich
 -e git+git://github.com/thoas/django-gravatar.git@c1ade6dbc0786903279839e855c8d1e69bb3d0ed#egg=django-gravatar
+South==0.7.3
